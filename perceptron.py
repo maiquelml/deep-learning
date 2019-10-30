@@ -29,18 +29,18 @@ class Perceptron:
 		for e in range(self.epochs):
 				error = False
 
-				for i in range(self.n_inputs):
+				for current_input, current_output in zip(self.inputs, self.outputs):
 					u = 0
-					for j in range(self.n_inputs_values):
-						u += self.inputs[i][j] * self.weights[j]
+					for x, w in zip(current_input, self.weights):
+						u += x * w
 					y = self.step(u)
-					
-					if y != self.outputs[i]:
-						delta_error = self.outputs[i] - y
-						for j in range(self.n_inputs_values):
-								self.weights[j] = self.weights[j] + self.learning_rate * delta_error * self.inputs[i][j]
+
+					if y != current_output:
+						delta_error = current_output - y
+						for i, x in enumerate(current_input):
+							self.weights[i] = self.weights[i] + self.learning_rate * delta_error * x
 						error = True
-				
+
 				if not error:
 						print('Found epoch :', e)
 						break
